@@ -26,11 +26,11 @@ namespace Warehouse.Controllers
 
         // post - create
         [HttpPost]
-        public IActionResult Create(ApplicationType obj)
+        public IActionResult Create(WarehouseInformation obj)
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Add(obj);
+                _db.WarehouseInformation.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -46,7 +46,7 @@ namespace Warehouse.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _db.WarehouseInformation.Find(id);
             if (obj == null)
             {
                 return NotFound();
@@ -57,11 +57,11 @@ namespace Warehouse.Controllers
         // post - edit
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public IActionResult Edit(ApplicationType obj)
+        public IActionResult Edit(WarehouseInformation obj)
         {
             if (ModelState.IsValid)
             {
-                _db.ApplicationType.Update(obj);
+                _db.WarehouseInformation.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -76,7 +76,7 @@ namespace Warehouse.Controllers
                 return NotFound();
             }
 
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _db.WarehouseInformation.Find(id);
             if (obj == null)
             {
                 return NotFound();
@@ -89,12 +89,12 @@ namespace Warehouse.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
-            var obj = _db.ApplicationType.Find(id);
+            var obj = _db.WarehouseInformation.Find(id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _db.ApplicationType.Remove(obj);
+            _db.WarehouseInformation.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction("Index"); ;
         }
