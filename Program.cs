@@ -10,15 +10,17 @@ namespace Warehouse
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            //// Add services to the container.
+            //builder.Services.AddControllersWithViews();
 
             //COnnect to DB
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            
+            // Add services to the container.
+            builder.Services.AddControllersWithViews();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

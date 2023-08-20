@@ -16,5 +16,6 @@ namespace Warehouse.Models
         {
             get; set;
         }
+        public int NumbProdInWarehouse { get; set; }
     }
 }

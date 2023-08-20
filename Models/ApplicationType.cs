@@ -7,7 +7,7 @@ namespace Warehouse.Models
     {
         [Key]
         public int Id { get; set; }
-        [DisplayName("Тип товара")]
+        //[DisplayName("Тип товара")]
         [Required]
         [StringLength(200, ErrorMessage = "Недопустимая длина строки.")]
         public string Name { get; set; }
