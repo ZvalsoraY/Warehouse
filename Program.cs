@@ -21,6 +21,8 @@ namespace Warehouse
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //builder.Services.AddRazorPages();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -37,6 +39,8 @@ namespace Warehouse
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //app.MapRazorPages();
 
             app.MapControllerRoute(
                 name: "default",
