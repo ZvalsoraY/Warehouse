@@ -12,10 +12,7 @@ namespace Warehouse.Models
         public virtual WarehouseInformation WarehouseInformation { get; set; }
 
         [ForeignKey("ProductId")]
-        public virtual Product Product
-        {
-            get; set;
-        }
+        public virtual Product Product { get; set; }
         public int NumbProdInWarehouse { get; set; }
     }
 }

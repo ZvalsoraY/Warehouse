@@ -13,6 +13,6 @@ namespace Warehouse.Data
         public DbSet<ApplicationType> ApplicationType { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<WarehouseInformation> WarehouseInformation { get; set; }
-        public DbSet<WarehouseProduct> StockProduct { get; set; }
+        public DbSet<WarehouseProduct> WarehouseProduct { get; set; }
     }
 }
