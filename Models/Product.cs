@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Warehouse.Models
 {
@@ -19,6 +20,7 @@ namespace Warehouse.Models
         [Display(Name = "Application Type")]
         public int ApplicationTypeId { get; set; }
         [ForeignKey("ApplicationTypeId")]
+        [ValidateNever]
         public virtual ApplicationType ApplicationType { get; set; }
     }
 }

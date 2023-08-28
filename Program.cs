@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Warehouse.Data;
@@ -20,6 +21,12 @@ namespace Warehouse
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //Использование  JSимен свойств ON в ошибках проверки
+            //builder.Services.AddControllers(options =>
+            //{
+            //    options.ModelMetadataDetailsProviders.Add(new SystemTextJsonValidationMetadataProvider());
+            //});
 
             //builder.Services.AddRazorPages();
 
