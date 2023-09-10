@@ -17,7 +17,8 @@
 
 @if (Model.Count() > 0)
 {
-    <table class="table table-bordered table-striped" style="width: 100%">
+    
+     <table class="table table-bordered table-striped" style="width: 100%">
         <thead>
         <tr>
                 <th>Warehouse</th>
@@ -33,16 +34,6 @@
                     <td width="30%">@obj.WarehouseInformation.Name</td>
                     <td width="30%">@obj.Product.Name</td>
                     <td width="20%">@obj.NumbProdInWarehouse</td>
-                    @*<td class="text-center">
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-controller="Category" asp-route-Id="@obj.Id" asp-action="Edit" class="btn btn-primary mx-2">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a asp-controller="Category" asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger mx-2">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </div>
-                    </td>*@
                     <td class="text-center">
                         <div class="w-75 btn-group" role="group">
                             <a asp-route-Id="@obj.Id" asp-action="Upsert" class="btn btn-primary mx-2">
@@ -60,5 +51,5 @@
 }
 else
 {
-    <p> No category exists.</p>
+    <p> No ProdInWarehouse exists.</p>
 }

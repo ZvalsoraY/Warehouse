@@ -1,4 +1,6 @@
-﻿@{
+﻿@*@model IEnumerable<Warehouse.Models.WarehouseProduct>*@
+@model Warehouse.Models.ViewModels.WarehouseProductHomeVM
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +8,151 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Warehouse with numder of Product</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="WarehouseProduct" asp-action="Upsert" class="btn btn-primary">
+                <i class="fas fa-plus"></i> &nbsp; Create New numder of Product
+            </a>
+        </div>
+        <form method="get">
+            <div class="form-inline">
+                <label class="control-label">Команда: </label>
+                @Html.DropDownList("warehouse", Model.WarehouseInformationSelectList as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+
+                <input type="submit" value="Фильтр" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<br />
+<br />
+
+@if (Model.WarehouseProducts.Count() > 0)
+{
+
+    <table class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Warehouse</th>
+                <th>Product</th>
+                <th> NumbProdInWarehouse</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.WarehouseProducts)
+            {
+                <tr>
+                    <td width="30%">@obj.WarehouseInformation.Name</td>
+                    <td width="30%">@obj.Product.Name</td>
+                    <td width="20%">@obj.NumbProdInWarehouse</td>
+                    <td class="text-center">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-route-Id="@obj.Id" asp-action="Upsert" class="btn btn-primary mx-2">
+                                Edit<i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger mx-2">
+                                Delete<i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p> No ProdInWarehouse exists.</p>
+}
+
+
+@*@model Warehouse.Models.ViewModels.WarehouseProductHomeVM
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Warehouse with numder of Product</h2>
+        </div>
+        <div class="col-6 text-right">
+            <button class="btn btn-dark filter-button" data-filter="all">All</button>
+            @foreach (var obj in Model.WarehouseInformationSelectList)
+            {
+                <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ', '_')">
+                    @obj.Name
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
+
+@if (Model.WarehouseProducts.Count() > 0)
+{
+    <table class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th>Warehouse</th>
+                <th>Product</th>
+                <th> NumbProdInWarehouse</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.WarehouseProducts)
+            {
+                <tr>
+
+                    <td width="30%">@obj.WarehouseInformation.Name</td>
+                    <td width="30%">@obj.Product.Name</td>
+                    <td width="20%">@obj.NumbProdInWarehouse</td>
+                    <td class="text-center">
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-route-Id="@obj.Id" asp-action="Upsert" class="btn btn-primary mx-2">
+                                Edit<i class="fas fa-edit"></i>
+                            </a>
+                            <a asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger mx-2">
+                                Delete<i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p> No ProdInWarehouse exists.</p>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $(".filter-button").click(function () {
+
+                var value = $(this).attr('data-filter');
+                if (value == "all") {
+                    $('.filter').show('1000');
+                }
+                else {
+                    $(".filter").not('.' + value).hide('3000');
+                    $('.filter').filter('.' + value).show('3000');
+
+                }
+            });
+
+        });
+    </script>
+}*@
