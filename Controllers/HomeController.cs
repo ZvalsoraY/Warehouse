@@ -28,7 +28,7 @@ namespace Warehouse.Controllers
                         
             if (warehouse != null && warehouse != 0)
             {
-                warehouseProducts = warehouseProducts.Where(p => p.Id == warehouse);
+                warehouseProducts = warehouseProducts.Where(p => p.WarehouseId == warehouse);
             }            
 
             List<WarehouseInformation> warehouses = _db.WarehouseInformation.ToList();
@@ -38,7 +38,7 @@ namespace Warehouse.Controllers
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
             {
                 WarehouseProducts = warehouseProducts.ToList(),
-                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name"),
+                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")
             //    Positions = new SelectList(new List<string>()
             //{
             //    "Все",
