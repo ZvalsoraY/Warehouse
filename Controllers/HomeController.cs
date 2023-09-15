@@ -50,6 +50,17 @@ namespace Warehouse.Controllers
             };
             return View(plvm);
         }
+        public IActionResult Test(int id, int value)
+        {
+            var blog = _db.WarehouseProduct.Find(id);
+            blog.NumbProdInWarehouse = value;
+            _db.SaveChanges();
+            return Json("ok");
+        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Blogs.ToListAsync());
+        //}
         //public IActionResult Index()
         //{
         //    WarehouseProductHomeVM warehouseProductHomeVM = new WarehouseProductHomeVM()
