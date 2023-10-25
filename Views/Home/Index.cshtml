@@ -62,47 +62,40 @@
             {
                 <tr>
                     <td width="30%">@obj.WarehouseInformation.Name</td>
-                    <td width="30%">@obj.Product.Name</td>
-                    @*<td width="20%">@obj.NumbProdInWarehouse</td>*@
+                    <td width="25%">@obj.Product.Name</td>
+                    <td width="10%">@obj.NumbProdInWarehouse</td>
 
-                       @* <div class="qtaAggiungi btn btn-success" data-action-url="@Url.Action("AumentaODiminuisci", "Carrello")" data-item-marca="@articolo.Item.Marca" data-item-modello="@articolo.Item.Modello">+</div>
-                        <input class="form-control" type="text" data-item-marca="@articolo.Item.Marca" data-item-modello="@articolo.Item.Modello" value="@articolo.Qta" name="Qta" />
-                        <div class="qtaDiminuisci btn btn-success" data-action-url="@Url.Action("AumentaODiminuisci", "Carrello")" data-item-marca="@articolo.Item.Marca" data-item-modello="@articolo.Item.Modello">-</div>*@
-
-                    @*<div class="col-sm-2 text-center">
-                        <div class="input-group">*@
-                    <td width="20%">
-                        @*<div class="input-group">
-                        <button type="button" class="btn btn-light">
-                                <span class="fa fa-minus"></span>
-                        </button>
-                        <input type="text" value="@obj.NumbProdInWarehouse"
-                                   class="form-control text-center quantity" />
-                        <button type="button" class="btn btn-light">
-                            <span class="fa fa-plus fa-lg"></span>
-                         </button>
-                        </div>*@
-                       @* <div class="quantity buttons_added">
-                            <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="@obj.NumbProdInWarehouse" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-                        </div>*@
-                   @* <td id="@obj.NumbProdInWarehouse" class="cart_quantity">*@
-                        @*<div class="cart_quantity_button">
-                            <a class="cart_quantity_up" id="AddButton"> + </a>
-                            <input class="cart_quantity_input" id="TextBox" type="text" name="quantity" value="@obj.NumbProdInWarehouse" autocomplete="off" size="2">
-                            <a class="cart_quantity_down" id="subbutton"> - </a>
-                        </div>*@
-                        @*<p class="description">Quantity:</p>*@
-                        @*<button type="button" class="decrease-btn">-</button>
-                        <input type="text" class="quantity" value="@obj.NumbProdInWarehouse">
-                        <button type="button" class="increase-btn">+</button>*@
-                       @* <p class="total">Total: <span id="total">$21</span></p>*@
-                   @* </td>*@
+                    <td width="15%">                 
+                      
                         <div class="input-group">
-                            <input type="submit" value="-" class="button-minus" data-field="quantity">
-                            <input type="submit" step="1" max="" value="@obj.NumbProdInWarehouse" name="quantity" asp-for="@obj.NumbProdInWarehouse" class="quantity-field">
+                            @*<input type="submit" value="-" class="button-minus" data-field="quantity">
+                            <input type="submit" step="1" min="0" max="" value="@obj.NumbProdInWarehouse" name="quantity" asp-for="@obj.NumbProdInWarehouse" class="quantity-field">
                             <input type="submit" value="+" class="button-plus" data-field="quantity">
-                            <input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />
+                            <input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />*@
+
+                            @*<button id="btnregister" type="button" class="hapus_krs" value="1">x</button>*@
+                            @*<input type="button"  value="-" name="button-minus" id="@obj.Id">*@
+
+                            @*<button id="btnmin" type="button" name="button-minus" value="@obj.Id">-</button>*@
+                            <button type="button" onclick="AddProductToBasket(@obj.Id)" data-id="@obj.Id" class="productIdButton">-</button>
+                            <input type="submit" step="1" min="0" max="" value="@obj.NumbProdInWarehouse">
+                            <input type="submit" value="+" name="button-plus" onclick="NumberItems(@obj.Id ,@obj.NumbProdInWarehouse)">
+
+                            @*<input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />*@
+
+                           @* <Buttons>
+                                <Button Color="Color.Success" Outline Clicked="() => OnChangeQuantity(context, 1)">+</Button>
+                                <Button Color="Color.Danger" Outline Clicked="() => OnChangeQuantity(context, -1)">-</Button>
+                            </Buttons>*@
+
                         </div>
+                        <div class="count-container">
+                            <input type='button' value='-' class='qtyminus' data-field='quantity' />
+                            <input type='number' name='quantity' step="1" min="10" max="13" value="@obj.NumbProdInWarehouse" @*value='0'*@ class='qty' />
+                            <input type='button' value='+' class='qtyplus' data-field='quantity' />
+                        </div>
+
+                        
 
 
                     </td>
@@ -128,9 +121,151 @@ else
 {
     <p> No ProdInWarehouse exists.</p>
 }
+
+
+
+
 @section Scripts
 {
+
     <script>
+        $(document).ready(function () {
+            //$("#btnmin").click(function () {
+            //$('button-minus').click(function () {
+            $('.input-group').on('click', '.button-minus', function () {
+                //var obj = { id: $("#btnmin").val()) };
+                debugger;
+                $.ajax({
+                    url: "Home/NumberItems",
+                    type: "GET",
+                    data: {
+                        //id: $(this).val(),
+                        warehouseProductId: $("#btnmin").val(),
+                    },
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // Действия, если запрос был успешным.
+                            Продолжи
+                        } else {
+                            // Обработка ошибок.
+                        }
+                    },
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+
+        function AddProductToBasket(productid) {
+            try {
+                $.ajax({
+                    url: "Home/NumberItems",
+                    type: "GET",
+                    data: { warehouseProductId: productid },
+                    success: function (oData) {
+                        alert(oData);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+            catch (e) {
+                alert(e.message);
+            }
+        }
+    </script>
+    @*<script>
+        $('.qtyplus').click(function (e) {
+            e.preventDefault();
+            var $container = $(this).closest('.count-container');
+            var $field = $container.find('input[name=' + $(this).data('field') + ']');
+            var currentVal = parseInt($field.val(), 10);
+            if (!isNaN(currentVal)) {
+                $field.val(currentVal + 1);
+            } else {
+                $field.val(0);
+            }
+        });
+        $('.qtyminus').click(function (e) {
+            e.preventDefault();
+            var $container = $(this).closest('.count-container');
+            var $field = $container.find('input[name=' + $(this).data('field') + ']');
+            var currentVal = parseInt($field.val(), 10);
+            if (!isNaN(currentVal) && currentVal>0) {
+                $field.val(currentVal - 1);
+            } else {
+                $field.val(0);
+            }
+        });
+    </script>*@
+    
+
+   @* <script>
+        $('.input-group').on('click', '.button-minus', function () {
+        //$('input-group').on('click' {
+            //$('#btnmin').click(function () {
+                var obj = { warehouseProductId: $("#btnmin").val()};
+                $.ajax({
+                    type: "GET",
+                    //contentType: "application/json; charset=utf-8",
+                    url: "Home/NumberItems",
+                    data: JSON.stringify(obj),
+                    dataType: "json",
+                    //success: function (data) {
+                    //    alert("Successfully register");
+                    //    $("#btnregclose").click();
+                    }
+                });
+            });
+        });
+
+        $('count-container').on('click'/*, function () */{
+            var Operation = $(this).value();
+            //var WarehouseProductId = $(this).id();
+            $.ajax({
+
+                type: "GET",//or POST
+                url: "Home/NumberItems",
+                //  (or whatever your url is)
+                data: { WarehouseProductId, Operation },
+                //can send multipledata like {data1:var1,data2:var2,data3:var3
+                //can use dataType:'text/html' or 'json' if response type expected
+                //success: function (responsedata) {
+                //    // process on data
+                //    alert("got response as " + "'" + responsedata + "'");
+                //}
+            })
+                .done(function (data) {
+                    console.log(data)
+        });
+        $('.qtyplus').click(function (e) {
+            e.preventDefault();
+            var $container = $(this).closest('.count-container');
+            var $field = $container.find('input[name=' + $(this).data('field') + ']');
+            var currentVal = parseInt($field.val(), 10);
+            if (!isNaN(currentVal)) {
+                $field.val(currentVal + 1);
+            } else {
+                $field.val(0);
+            }
+        });
+        $('.qtyminus').click(function (e) {
+            e.preventDefault();
+            var $container = $(this).closest('.count-container');
+            var $field = $container.find('input[name=' + $(this).data('field') + ']');
+            var currentVal = parseInt($field.val(), 10);
+            if (!isNaN(currentVal) && currentVal > 0) {
+                $field.val(currentVal - 1);
+            } else {
+                $field.val(0);
+            }
+        });
+    </script>*@
+
+
+    @*<script>
          $('.input-group').on('click', '.button-plus', function (e) {
                 incrementValue(e);
                 var fieldName = $(e.target).data('field');
@@ -148,148 +283,5 @@ else
                 var id = parseInt(parent.find('input[name=Id ]').val());
                 $.ajax({ url: 'blogs/test', type: 'get', data: { "value": currentVal, "id": id}, dataType: 'json', success: function (data) { console.log(data) } })
             });
-    </script>
-        @*var $buttonPlus = $('.increase-btn');
-    var $buttonMin = $('.decrease-btn');
-    var $quantity = $('.quantity');
-    /*For plus and minus buttons*/
-    $buttonPlus.click(function(){
-      $quantity.val( parseInt($quantity.val()) + 1 );
-    });
-    $buttonMin.click(function(){
-      $quantity.val( parseInt($quantity.val()) - 1 );
-    });*@
-   @* <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
-    @*<script>
-        $(document).ready(function () {
-            $('.cart_quantity_up').click(function () {
-                var quantityBox = $(this).siblings("#TextBox");
-                var quantity = parseInt(quantityBox.val()) + 1;
-                quantityBox.val(quantity);
-
-                //var price = parseInt($(this).parent().siblings(".cart_price").children("#price").html());
-                //var totalPrice = quantity * price;
-                $(this).parent().siblings(".cart_total").children("#totprice").html(totalPrice);
-            });
-
-            $('.cart_quantity_down').click(function () {
-                var quantityBox = $(this).siblings("#TextBox");
-                var quantity = parseInt(quantityBox.val()) - 1;
-                quantityBox.val(quantity);
-
-                //var price = parseInt($(this).parent().siblings(".cart_price").children("#price").html());
-                //var totalPrice = quantity * price;
-                $(this).parent().siblings(".cart_quantity_input").children("#TextBox").html(quantity);
-            });
-        });
-    </script>*@
-    @*<script>
-        function wcqib_refresh_quantity_increments() {
-            jQuery("div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)").each(function(a, b) {
-            var c = jQuery(b);
-            c.addClass("buttons_added"), c.children().first().before('
-            <input type="button" value="-" class="minus" />'), c.children().last().after('
-            <input type="button" value="+" class="plus" />')
-            })
-        }
-        String.prototype.getDecimals || (String.prototype.getDecimals = function () {
-            var a = this,
-                b = ("" + a).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-            return b ? Math.max(0, (b[1] ? b[1].length : 0) - (b[2] ? +b[2] : 0)) : 0
-        }), jQuery(document).ready(function () {
-            wcqib_refresh_quantity_increments()
-        }), jQuery(document).on("updated_wc_div", function () {
-            wcqib_refresh_quantity_increments()
-        }), jQuery(document).on("click", ".plus, .minus", function () {
-            var a = jQuery(this).closest(".quantity").find(".qty"),
-                b = parseFloat(a.val()),
-                c = parseFloat(a.attr("max")),
-                d = parseFloat(a.attr("min")),
-                e = a.attr("step");
-            b && "" !== b && "NaN" !== b || (b = 0), "" !== c && "NaN" !== c || (c = ""), "" !== d && "NaN" !== d || (d = 0), "any" !== e && "" !== e && void 0 !== e && "NaN" !== parseFloat(e) || (e = 1), jQuery(this).is(".plus") ? c && b >= c ? a.val(c) : a.val((b + parseFloat(e)).toFixed(e.getDecimals())) : d && b <= d ? a.val(d) : b > 0 && a.val((b - parseFloat(e)).toFixed(e.getDecimals())), a.trigger("change")
-        });
     </script>*@
 }
-
-@*@model Warehouse.Models.ViewModels.WarehouseProductHomeVM
-
-<div class="container p-3">
-    <div class="row pt-4">
-        <div class="col-6">
-            <h2 class="text-primary">Warehouse with numder of Product</h2>
-        </div>
-        <div class="col-6 text-right">
-            <button class="btn btn-dark filter-button" data-filter="all">All</button>
-            @foreach (var obj in Model.WarehouseInformationSelectList)
-            {
-                <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ', '_')">
-                    @obj.Name
-                </button>
-            }
-        </div>
-    </div>
-</div>
-
-<br />
-<br />
-
-@if (Model.WarehouseProducts.Count() > 0)
-{
-    <table class="table table-bordered table-striped" style="width: 100%">
-        <thead>
-            <tr>
-                <th>Warehouse</th>
-                <th>Product</th>
-                <th> NumbProdInWarehouse</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var obj in Model.WarehouseProducts)
-            {
-                <tr>
-
-                    <td width="30%">@obj.WarehouseInformation.Name</td>
-                    <td width="30%">@obj.Product.Name</td>
-                    <td width="20%">@obj.NumbProdInWarehouse</td>
-                    <td class="text-center">
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-route-Id="@obj.Id" asp-action="Upsert" class="btn btn-primary mx-2">
-                                Edit<i class="fas fa-edit"></i>
-                            </a>
-                            <a asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger mx-2">
-                                Delete<i class="fas fa-trash-alt"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p> No ProdInWarehouse exists.</p>
-}
-
-@section Scripts
-{
-    <script>
-        $(document).ready(function () {
-
-            $(".filter-button").click(function () {
-
-                var value = $(this).attr('data-filter');
-                if (value == "all") {
-                    $('.filter').show('1000');
-                }
-                else {
-                    $(".filter").not('.' + value).hide('3000');
-                    $('.filter').filter('.' + value).show('3000');
-
-                }
-            });
-
-        });
-    </script>
-}*@
