@@ -55,7 +55,7 @@ namespace Warehouse.Controllers
         }
 
         //[HttpPost]
-        public IActionResult NumberItems(int warehouseProductId)
+        public IActionResult NumberItems(int warehouseProductId, int command)
         {
             var results = new List<int>();
             //warehouseProduct = _db.WarehouseProduct.Find(warehouseProductId);
@@ -63,10 +63,15 @@ namespace Warehouse.Controllers
             {
                 return NotFound();
             }
+            if(command >= 0 || _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse > 0)
+            {
+                _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse += command;
+                _db.SaveChanges();
+            }
             //if (operation == "-")
             //{
-                _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse -= 1;
-                _db.SaveChanges();
+                //_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse -= 1;
+                //_db.SaveChanges();
                 results.Add(_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse);
 
             //}

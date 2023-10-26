@@ -63,7 +63,7 @@
                 <tr>
                     <td width="30%">@obj.WarehouseInformation.Name</td>
                     <td width="25%">@obj.Product.Name</td>
-                    <td width="10%">@obj.NumbProdInWarehouse</td>
+                    @*<td width="10%">@obj.NumbProdInWarehouse</td>*@
 
                     <td width="15%">                 
                       
@@ -77,9 +77,10 @@
                             @*<input type="button"  value="-" name="button-minus" id="@obj.Id">*@
 
                             @*<button id="btnmin" type="button" name="button-minus" value="@obj.Id">-</button>*@
-                            <button type="button" onclick="AddProductToBasket(@obj.Id)" data-id="@obj.Id" class="productIdButton">-</button>
+                            <button type="button" onclick="AddProductToBasket(@obj.Id, '-1')" data-id="@obj.Id" class="productIdButton">-</button>
                             <input type="submit" step="1" min="0" max="" value="@obj.NumbProdInWarehouse">
-                            <input type="submit" value="+" name="button-plus" onclick="NumberItems(@obj.Id ,@obj.NumbProdInWarehouse)">
+                            <button type="button" onclick="AddProductToBasket(@obj.Id, '1')" data-id="@obj.Id" class="productIdButton">+</button>
+                            @*<input type="submit" value="+" name="button-plus" onclick="NumberItems(@obj.Id ,@obj.NumbProdInWarehouse)">*@
 
                             @*<input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />*@
 
@@ -157,14 +158,18 @@ else
 
     <script type="text/javascript">
 
-        function AddProductToBasket(productid) {
+        function AddProductToBasket(productid, comm) {
             try {
                 $.ajax({
                     url: "Home/NumberItems",
                     type: "GET",
-                    data: { warehouseProductId: productid },
+                    data: { warehouseProductId: productid,
+                            command: comm},
+                    //success: function (oData) {
+                    //    alert(oData);
+                    //},
                     success: function (oData) {
-                        alert(oData);
+                        location.reload(true);
                     },
                     error: function (error) {
                         alert(error);
