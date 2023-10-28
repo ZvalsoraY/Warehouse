@@ -27,7 +27,7 @@ namespace Warehouse.Controllers
 
         public IActionResult Index(int? warehouse)
         {
-            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product);
+            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType);
                         
             if (warehouse != null && warehouse != 0)
             {
@@ -40,16 +40,8 @@ namespace Warehouse.Controllers
 
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
             {
-                WarehouseProducts = warehouseProducts.ToList(),
-                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")
-            //    Positions = new SelectList(new List<string>()
-            //{
-            //    "Все",
-            //    "Нападающий",
-            //    "Полузащитник",
-            //    "Защитник",
-            //    "Вратарь"
-            //})
+                WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId),
+                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")            
             };
             return View(plvm);
         }
@@ -58,7 +50,6 @@ namespace Warehouse.Controllers
         public IActionResult NumberItems(int warehouseProductId, int command)
         {
             var results = new List<int>();
-            //warehouseProduct = _db.WarehouseProduct.Find(warehouseProductId);
             if (_db.WarehouseProduct.Find(warehouseProductId) == null)
             {
                 return NotFound();
@@ -67,69 +58,10 @@ namespace Warehouse.Controllers
             {
                 _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse += command;
                 _db.SaveChanges();
-            }
-            //if (operation == "-")
-            //{
-                //_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse -= 1;
-                //_db.SaveChanges();
-                results.Add(_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse);
-
-            //}
-            //else
-            //{
-            //}
+            }            
+            results.Add(_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse);
             return new JsonResult(results);
-        }
-        //public async Task<IActionResult> Index()
-        //{
-        //    var blog = _db.WarehouseProduct.Find(id);
-        //    blog.NumbProdInWarehouse = value;
-        //    _db.SaveChanges();
-        //    return Json("ok");
-        //}
-        //private async Task OnChangeQuantity(ProductWithQuantity product, int quantityDiff)
-        //{
-        //    var dto = new StorageIncreaseProductQuantityDto(product.ProductId, quantityDiff);
-
-        //    var serializedDto = JsonSerializer.Serialize(dto);
-        //    var requestContent = new StringContent(serializedDto, Encoding.UTF8, "application/json-patch+json");
-
-        //    var response = await WarehouseApi.PatchAsync($"/api/storage/{_storageId}/increaseProductQuantity", requestContent);
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        if (_hubConnection is not null)
-        //        {
-        //            await _hubConnection.SendAsync("SendQuantityChanged", _storageId, product.ProductId, quantityDiff);
-        //        }
-
-        //        var storageDto = await response.Content.ReadFromJsonAsync<StorageDto>();
-        //        var changedProduct = storageDto.Products.First(p => p.ProductId == product.ProductId);
-
-        //        var indexOfProduct = _products.IndexOf(product);
-        //        _products[indexOfProduct] = product with { Quantity = changedProduct.Quantity };
-        //    }
-        //    else
-        //        Console.WriteLine(await response.Content.ReadAsStringAsync());
-        //}
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Blogs.ToListAsync());
-        //}
-        //public IActionResult Index()
-        //{
-        //    WarehouseProductHomeVM warehouseProductHomeVM = new WarehouseProductHomeVM()
-        //    {
-        //        WarehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product),
-        //        WarehouseInformationSelectList = _db.WarehouseInformation.ToList()
-        //    };
-        //    return View(warehouseProductHomeVM);          
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
+        }        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

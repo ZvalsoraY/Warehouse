@@ -18,17 +18,7 @@
             <a asp-controller="WarehouseProduct" asp-action="Upsert" class="btn btn-primary">
                 <i class="fas fa-plus"></i> &nbsp; Create New numder of Product
             </a>
-        </div>
-        @*<form method="get">
-            <div class="col-6">
-                <label class="control-label">Select warehouse: </label>
-                @Html.DropDownList("warehouse", Model.WarehouseInformationSelectList as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-
-                <input type="submit" value="Фильтр" class="btn-primary" />
-
-            </div>
-        </form>*@
+        </div>        
     </div>
 </div>
 <form method="get">
@@ -53,66 +43,27 @@
             <tr>
                 <th>Warehouse</th>
                 <th>Product</th>
-                <th> NumbProdInWarehouse</th>
-                <th></th>
+                <th> Product Application Type</th>
+                <th> NumbProdInWarehouse</th>                
             </tr>
         </thead>
         <tbody>
             @foreach (var obj in Model.WarehouseProducts)
             {
                 <tr>
-                    <td width="30%">@obj.WarehouseInformation.Name</td>
-                    <td width="25%">@obj.Product.Name</td>
-                    @*<td width="10%">@obj.NumbProdInWarehouse</td>*@
-
-                    <td width="15%">                 
+                    <td width="20%">@obj.WarehouseInformation.Name</td>
+                    <td width="20%">@obj.Product.Name</td>
+                    <td width="20%">@obj.Product.ApplicationType.Name</td>
+                    
+                    <td width="15%">    
                       
-                        <div class="input-group">
-                            @*<input type="submit" value="-" class="button-minus" data-field="quantity">
-                            <input type="submit" step="1" min="0" max="" value="@obj.NumbProdInWarehouse" name="quantity" asp-for="@obj.NumbProdInWarehouse" class="quantity-field">
-                            <input type="submit" value="+" class="button-plus" data-field="quantity">
-                            <input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />*@
-
-                            @*<button id="btnregister" type="button" class="hapus_krs" value="1">x</button>*@
-                            @*<input type="button"  value="-" name="button-minus" id="@obj.Id">*@
-
-                            @*<button id="btnmin" type="button" name="button-minus" value="@obj.Id">-</button>*@
+                        <div class="input-group">                            
                             <button type="button" onclick="AddProductToBasket(@obj.Id, '-1')" data-id="@obj.Id" class="productIdButton">-</button>
                             <input type="submit" step="1" min="0" max="" value="@obj.NumbProdInWarehouse">
-                            <button type="button" onclick="AddProductToBasket(@obj.Id, '1')" data-id="@obj.Id" class="productIdButton">+</button>
-                            @*<input type="submit" value="+" name="button-plus" onclick="NumberItems(@obj.Id ,@obj.NumbProdInWarehouse)">*@
+                            <button type="button" onclick="AddProductToBasket(@obj.Id, '1')" data-id="@obj.Id" class="productIdButton">+</button>                            
+                        </div>                      
 
-                            @*<input type="hidden" name="Id" value="@obj.Id" data-field="quantity" />*@
-
-                           @* <Buttons>
-                                <Button Color="Color.Success" Outline Clicked="() => OnChangeQuantity(context, 1)">+</Button>
-                                <Button Color="Color.Danger" Outline Clicked="() => OnChangeQuantity(context, -1)">-</Button>
-                            </Buttons>*@
-
-                        </div>
-                        <div class="count-container">
-                            <input type='button' value='-' class='qtyminus' data-field='quantity' />
-                            <input type='number' name='quantity' step="1" min="10" max="13" value="@obj.NumbProdInWarehouse" @*value='0'*@ class='qty' />
-                            <input type='button' value='+' class='qtyplus' data-field='quantity' />
-                        </div>
-
-                        
-
-
-                    </td>
-                       @* </div>
-                    </div>*@
-
-                    <td class="text-center">
-                        <div class="w-75 btn-group" role="group">
-                            <a asp-route-Id="@obj.Id" asp-action="Upsert" class="btn btn-primary mx-2">
-                                Edit<i class="fas fa-edit"></i>
-                            </a>
-                            <a asp-route-Id="@obj.Id" asp-action="Delete" class="btn btn-danger mx-2">
-                                Delete<i class="fas fa-trash-alt"></i>
-                            </a>
-                        </div>
-                    </td>
+                    </td>                    
                 </tr>
             }
         </tbody>
@@ -128,34 +79,6 @@ else
 
 @section Scripts
 {
-
-    <script>
-        $(document).ready(function () {
-            //$("#btnmin").click(function () {
-            //$('button-minus').click(function () {
-            $('.input-group').on('click', '.button-minus', function () {
-                //var obj = { id: $("#btnmin").val()) };
-                debugger;
-                $.ajax({
-                    url: "Home/NumberItems",
-                    type: "GET",
-                    data: {
-                        //id: $(this).val(),
-                        warehouseProductId: $("#btnmin").val(),
-                    },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            // Действия, если запрос был успешным.
-                            Продолжи
-                        } else {
-                            // Обработка ошибок.
-                        }
-                    },
-                });
-            });
-        });
-    </script>
-
     <script type="text/javascript">
 
         function AddProductToBasket(productid, comm) {
@@ -181,112 +104,4 @@ else
             }
         }
     </script>
-    @*<script>
-        $('.qtyplus').click(function (e) {
-            e.preventDefault();
-            var $container = $(this).closest('.count-container');
-            var $field = $container.find('input[name=' + $(this).data('field') + ']');
-            var currentVal = parseInt($field.val(), 10);
-            if (!isNaN(currentVal)) {
-                $field.val(currentVal + 1);
-            } else {
-                $field.val(0);
-            }
-        });
-        $('.qtyminus').click(function (e) {
-            e.preventDefault();
-            var $container = $(this).closest('.count-container');
-            var $field = $container.find('input[name=' + $(this).data('field') + ']');
-            var currentVal = parseInt($field.val(), 10);
-            if (!isNaN(currentVal) && currentVal>0) {
-                $field.val(currentVal - 1);
-            } else {
-                $field.val(0);
-            }
-        });
-    </script>*@
-    
-
-   @* <script>
-        $('.input-group').on('click', '.button-minus', function () {
-        //$('input-group').on('click' {
-            //$('#btnmin').click(function () {
-                var obj = { warehouseProductId: $("#btnmin").val()};
-                $.ajax({
-                    type: "GET",
-                    //contentType: "application/json; charset=utf-8",
-                    url: "Home/NumberItems",
-                    data: JSON.stringify(obj),
-                    dataType: "json",
-                    //success: function (data) {
-                    //    alert("Successfully register");
-                    //    $("#btnregclose").click();
-                    }
-                });
-            });
-        });
-
-        $('count-container').on('click'/*, function () */{
-            var Operation = $(this).value();
-            //var WarehouseProductId = $(this).id();
-            $.ajax({
-
-                type: "GET",//or POST
-                url: "Home/NumberItems",
-                //  (or whatever your url is)
-                data: { WarehouseProductId, Operation },
-                //can send multipledata like {data1:var1,data2:var2,data3:var3
-                //can use dataType:'text/html' or 'json' if response type expected
-                //success: function (responsedata) {
-                //    // process on data
-                //    alert("got response as " + "'" + responsedata + "'");
-                //}
-            })
-                .done(function (data) {
-                    console.log(data)
-        });
-        $('.qtyplus').click(function (e) {
-            e.preventDefault();
-            var $container = $(this).closest('.count-container');
-            var $field = $container.find('input[name=' + $(this).data('field') + ']');
-            var currentVal = parseInt($field.val(), 10);
-            if (!isNaN(currentVal)) {
-                $field.val(currentVal + 1);
-            } else {
-                $field.val(0);
-            }
-        });
-        $('.qtyminus').click(function (e) {
-            e.preventDefault();
-            var $container = $(this).closest('.count-container');
-            var $field = $container.find('input[name=' + $(this).data('field') + ']');
-            var currentVal = parseInt($field.val(), 10);
-            if (!isNaN(currentVal) && currentVal > 0) {
-                $field.val(currentVal - 1);
-            } else {
-                $field.val(0);
-            }
-        });
-    </script>*@
-
-
-    @*<script>
-         $('.input-group').on('click', '.button-plus', function (e) {
-                incrementValue(e);
-                var fieldName = $(e.target).data('field');
-                var parent = $(e.target).closest('div');
-                var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-                var id = parseInt(parent.find('input[name=Id ]').val());
-                $.ajax({ url: 'blogs/test', type: 'get', data: { "value": currentVal ,"id":id}, dataType: 'json', success: function (data) { console.log(data) } })
-            });
-
-            $('.input-group').on('click', '.button-minus', function (e) {
-                decrementValue(e);
-                var fieldName = $(e.target).data('field');
-                var parent = $(e.target).closest('div');
-                var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
-                var id = parseInt(parent.find('input[name=Id ]').val());
-                $.ajax({ url: 'blogs/test', type: 'get', data: { "value": currentVal, "id": id}, dataType: 'json', success: function (data) { console.log(data) } })
-            });
-    </script>*@
 }

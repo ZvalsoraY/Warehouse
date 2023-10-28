@@ -11,5 +11,9 @@ namespace Warehouse.Models
         [Required]
         [StringLength(200, ErrorMessage = "Недопустимая длина строки.")]
         public string Name { get; set; }
+        //public override string ToString()
+        //{
+        //    return Name;
+        //}
     }
 }
