@@ -27,7 +27,7 @@ namespace Warehouse.Controllers
 
         public IActionResult Index(int? warehouse)
         {
-            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType);
+            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id).Take(6);
                         
             if (warehouse != null && warehouse != 0)
             {
@@ -46,7 +46,7 @@ namespace Warehouse.Controllers
             return View(plvm);
         }
 
-        //[HttpPost]
+        [HttpGet]
         public IActionResult NumberItems(int warehouseProductId, int command)
         {
             var results = new List<int>();
