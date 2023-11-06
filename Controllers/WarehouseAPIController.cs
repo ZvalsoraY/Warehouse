@@ -21,19 +21,19 @@ namespace Warehouse.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts()
+        public async ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts()
         {
             return Ok(_db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).ToList());
 
         }
 
-        [HttpGet("{id:int}", Name = "GetWarehouseProduct")]
+        [HttpGet("{warehouseId:int}", Name = "GetWarehouseProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts(int warehouseId)
+        public async ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts(int warehouseId)
         {
-            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id).Take(6);
+            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id);
 
             if (warehouseId != null && warehouseId != 0)
             {
@@ -46,12 +46,23 @@ namespace Warehouse.Controllers
 
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
             {
-                WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId),
+                WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId).Take(5),
                 WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")
             };
             
             return Ok(plvm);
         }
 
+        [HttpPut("{warehouseProductId:int}", Name = "IncreaseWarehouseProduct")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> IncreaseWarehouseProduct(long id, StorageIncreaseProductQuantityDto inputDto)
+        {
+            var response = await _storageService.IncreaseProductQuantity(id, inputDto);
+
+            if (!response.Success) return BadRequest(response.ErrorMessage);
+
+            return Ok(response.Resource);
+        }
     }
 }

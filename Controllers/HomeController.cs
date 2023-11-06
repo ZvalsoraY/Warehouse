@@ -29,7 +29,7 @@ namespace Warehouse.Controllers
 
         public IActionResult Index(int? warehouse)
         {
-            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id).Take(6);
+            IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id);
                         
             if (warehouse != null && warehouse != 0)
             {
@@ -42,7 +42,7 @@ namespace Warehouse.Controllers
 
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
             {
-                WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId),
+                WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId).Take(5),
                 WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")            
             };
             return View(plvm);
