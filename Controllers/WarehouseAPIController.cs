@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Warehouse.Models.ViewModels;
 using Warehouse.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Warehouse.Controllers
 {
@@ -83,5 +86,38 @@ namespace Warehouse.Controllers
             }
             return Ok(warehouseProduct);
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<Product> CreateProduct([FromBody] Product product)
+        {
+            if (_db.Product.FirstOrDefault(u => u.Name.ToLower() == product.Name.ToLower()) != null)
+            {
+                ModelState.AddModelError("CustomError", "Product already Exists");
+                return BadRequest(ModelState);
+            }
+            if (product == null)
+            {
+                return BadRequest(product);
+            }
+            if (product.Id > 0)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            Product model = new()
+            {
+                Name = product.Name,
+                ShortDesc = product.ShortDesc,
+                ApplicationTypeId = product.ApplicationTypeId
+            };
+            _db.Product.Add(model);
+            _db.SaveChanges();
+
+            return Ok(product); 
+        }
+
     }
 }
