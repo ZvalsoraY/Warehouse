@@ -5,6 +5,7 @@ using Warehouse.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Warehouse.Models.ViewModels;
+using Warehouse.Controllers;
 
 namespace Warehouse.Controllers
 {
@@ -21,7 +22,7 @@ namespace Warehouse.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts()
+        public ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts()
         {
             return Ok(_db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).ToList());
 
@@ -29,12 +30,15 @@ namespace Warehouse.Controllers
 
         [HttpGet("{warehouseId:int}", Name = "GetWarehouseProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts(int warehouseId)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]        
+        public ActionResult<IEnumerable<WarehouseProduct>> GetWarehouseProducts(int warehouseId)
         {
+            if (warehouseId == null)
+            {
+                return NotFound();
+            }
             IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id);
-
+            
             if (warehouseId != null && warehouseId != 0)
             {
                 warehouseProducts = warehouseProducts.Where(p => p.WarehouseId == warehouseId);
@@ -56,13 +60,28 @@ namespace Warehouse.Controllers
         [HttpPut("{warehouseProductId:int}", Name = "IncreaseWarehouseProduct")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> IncreaseWarehouseProduct(long id, StorageIncreaseProductQuantityDto inputDto)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<IEnumerable<WarehouseProduct>> IncreaseWarehouseProduct(int warehouseProductId, [FromBody()] int changeNumber)
         {
-            var response = await _storageService.IncreaseProductQuantity(id, inputDto);
-
-            if (!response.Success) return BadRequest(response.ErrorMessage);
-
-            return Ok(response.Resource);
+            if (warehouseProductId == null || changeNumber == null)
+            {
+                return NotFound();
+            }
+            if (changeNumber == 0)
+            {
+                return BadRequest();
+            }
+            var warehouseProduct = _db.WarehouseProduct.Find(warehouseProductId);
+            if (warehouseProduct == null)
+            {
+                return NotFound();
+            }
+            if (changeNumber >= 0 || warehouseProduct.NumbProdInWarehouse > 0)
+            {
+                warehouseProduct.NumbProdInWarehouse += changeNumber;
+                _db.SaveChanges();
+            }
+            return Ok(warehouseProduct);
         }
     }
 }

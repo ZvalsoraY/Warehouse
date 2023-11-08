@@ -81,13 +81,14 @@ else
 {
     <script type="text/javascript">
 
-        function AddProductToBasket(productid, comm) {
+        function AddProductToBasket(productid, changeNum) {
             try {
                 $.ajax({
                     url: "Home/NumberItems",
                     type: "GET",
                     data: { warehouseProductId: productid,
-                            command: comm},
+                        changeNumber: changeNum
+                    },
                     //success: function (oData) {
                     //    alert(oData);
                     //},

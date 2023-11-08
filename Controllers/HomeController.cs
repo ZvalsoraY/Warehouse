@@ -11,6 +11,7 @@ using Warehouse.Data;
 using Warehouse.Migrations;
 using Warehouse.Models;
 using Warehouse.Models.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Warehouse.Controllers
 {
@@ -49,19 +50,20 @@ namespace Warehouse.Controllers
         }
 
         [HttpGet]
-        public IActionResult NumberItems(int warehouseProductId, int command)
+        public IActionResult NumberItems(int warehouseProductId, int changeNumber)
         {
             var results = new List<int>();
-            if (_db.WarehouseProduct.Find(warehouseProductId) == null)
+            var warehouseProduct = _db.WarehouseProduct.Find(warehouseProductId);
+            if (warehouseProduct == null)
             {
                 return NotFound();
             }
-            if(command >= 0 || _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse > 0)
+            if(changeNumber >= 0 || warehouseProduct.NumbProdInWarehouse > 0)
             {
-                _db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse += command;
+                warehouseProduct.NumbProdInWarehouse += changeNumber;
                 _db.SaveChanges();
             }            
-            results.Add(_db.WarehouseProduct.Find(warehouseProductId).NumbProdInWarehouse);
+            results.Add(warehouseProduct.NumbProdInWarehouse);
             return new JsonResult(results);
         }        
 
