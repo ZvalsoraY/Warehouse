@@ -5,8 +5,13 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @*<h1 class="display-4">Welcome</h1>*@
+    <div style="position:absolute;right:0px;/*background-color:red;*/width:50%;height:100px;">
+        <label class="text">Storekeeper: </label>
+        @Html.DropDownList("warehouse", Model.WarehouseInformationSelectList as SelectList,
+        htmlAttributes: new { @class = "col-2" })
+    </div>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
 </div>
 
 <div class="container p-3">
