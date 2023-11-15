@@ -18,9 +18,6 @@
         <div class="row">
             <div class="col-8">                
                 <div class="form-group row">
-                    @*<div class="col-4">
-                        <label asp-for="WarehouseProduct.WarehouseInformation.Id"></label>
-                    </div>*@
                     <div class="col-8">
                         <select asp-for="WarehouseProduct.WarehouseId" asp-items="@Model.WarehouseInformationSelectList" class="form-control">
                             <option disabled selected>--Select Warehouse--</option>
@@ -30,9 +27,6 @@
 
                 </div>
                 <div class="form-group row">
-                    @*<div class="col-4">
-                        <label asp-for="WarehouseProduct.Product.Id"></label>
-                    </div>*@
                     <div class="col-8">
                         <select asp-for="WarehouseProduct.ProductId" asp-items="@Model.ProductSelectList" class="form-control">
                             <option disabled selected>--Select Product--</option>
@@ -58,12 +52,12 @@
                         <div class="col">
                             @if (Model.WarehouseProduct.Id != 0)
                             {
-                            //update
+                                //update
                                 <input type="submit" class="btn btn-info w-100" value="Update" />
                             }
                             else
                             {
-                            //Create
+                                //Create
                                 <input type="submit" onclick="return validateInput()" class="btn btn-primary w-100" value="Create" />
                             }
 

@@ -56,7 +56,6 @@ namespace Warehouse.Controllers
 
         // post - edit
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public IActionResult Edit(ApplicationType obj)
         {
             if (ModelState.IsValid)
@@ -86,7 +85,6 @@ namespace Warehouse.Controllers
 
         // post - delete
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
             var obj = _db.ApplicationType.Find(id);

@@ -4,7 +4,6 @@
     var title = "Create Product";
 }
 
-@*<form method="post" enctype="multipart/form-data">*@
 <form method="post">
     @if (Model.Product.Id != 0)
     {
@@ -58,14 +57,13 @@
                         <div class="col">
                             @if (Model.Product.Id != 0)
                             {
-                            //update
+                                //update
                                 <input type="submit" class="btn btn-info w-100" value="Update" />
                             }
                             else
                             {
-                //Create
+                                //Create
                                 <input type="submit" class="btn btn-primary w-100" value="Create" />
-                                @*<input type="submit" onclick="return validateInput()" class="btn btn-primary w-100" value="Create" />*@
                             }
 
                         </div>
@@ -83,11 +81,3 @@
     </div>
 
 </form>
-
-@*@section Scripts
-    {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}*@
-

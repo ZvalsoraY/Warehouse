@@ -35,7 +35,6 @@ namespace Warehouse.Controllers
                 return RedirectToAction("Index");
             }
             return View(obj);
-            //return View();
         }
 
         // get - edit
@@ -56,7 +55,6 @@ namespace Warehouse.Controllers
 
         // post - edit
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public IActionResult Edit(WarehouseInformation obj)
         {
             if (ModelState.IsValid)
@@ -86,7 +84,6 @@ namespace Warehouse.Controllers
 
         // post - delete
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
             var obj = _db.WarehouseInformation.Find(id);

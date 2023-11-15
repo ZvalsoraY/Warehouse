@@ -1,30 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Numerics;
-using System.Text;
 using Warehouse.Data;
-using Warehouse.Migrations;
 using Warehouse.Models;
 using Warehouse.Models.ViewModels;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Warehouse.Controllers
 {
-    //[Route("api/WarehouseAPI")]
-    //[ApiController]
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ApplicationDbContext db)
         {
-            //_logger = logger;
             _db = db;
         }
 
@@ -38,7 +28,6 @@ namespace Warehouse.Controllers
             }            
 
             List<WarehouseInformation> warehouses = _db.WarehouseInformation.ToList();
-            // устанавливаем начальный элемент, который позволит выбрать всех
             warehouses.Insert(0, new WarehouseInformation { Name = "Все", Id = 0 });
 
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM

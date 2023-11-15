@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data;
 using Warehouse.Models;
 using Warehouse.Models.ViewModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+
 
 namespace Warehouse.Controllers
 {
@@ -56,7 +55,6 @@ namespace Warehouse.Controllers
 
         // post - upsert
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Upsert(ProductVM productVM)
         {
             if (ModelState.IsValid)
@@ -105,7 +103,6 @@ namespace Warehouse.Controllers
 
         // post - delete
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
             var obj = _db.Product.Find(id);

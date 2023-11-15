@@ -20,12 +20,6 @@ namespace Warehouse.Models
         [ForeignKey("ProductId")]
         [ValidateNever]
         public virtual Product Product { get; set; }
-
-        //[ForeignKey("WarehouseId")]
-        //public virtual WarehouseInformation WarehouseInformation { get; set; }
-
-        //[ForeignKey("ProductId")]
-        //public virtual Product Product { get; set; }
         public int NumbProdInWarehouse { get; set; }
     }
 }

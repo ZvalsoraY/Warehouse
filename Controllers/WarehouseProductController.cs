@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data;
@@ -21,30 +20,7 @@ namespace Warehouse.Controllers
         {
             IEnumerable<WarehouseProduct> objList = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product);
             return View(objList);
-        }
-
-        //// get - create
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// post - create
-        //[HttpPost]
-        ////[ValidateAntiForgeryToken]
-        //public IActionResult Create(WarehouseProduct obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.WarehouseProduct.Add(obj);
-        //        _db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(obj);
-        //    //return View();
-        //}
-
-        // get - upsert
+        }        
         public IActionResult Upsert(int? id)
         {
 
@@ -66,7 +42,6 @@ namespace Warehouse.Controllers
 
             if (id == null)
             {
-                //this is fo create
                 return View(warehouseProductVM);
             }
             else
@@ -82,7 +57,6 @@ namespace Warehouse.Controllers
 
         // post - upsert
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Upsert(WarehouseProductVM warehouseProductVM)
         {
             if (ModelState.IsValid)
@@ -125,7 +99,6 @@ namespace Warehouse.Controllers
             }
 
             WarehouseProduct warehouseProduct = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).FirstOrDefault(u => u.Id == id);
-            //product.Category = _db.Category.Find(product.CateroryId);
             if (warehouseProduct == null)
             {
                 return NotFound();
@@ -135,7 +108,6 @@ namespace Warehouse.Controllers
 
         // post - delete
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public IActionResult DeletePost(int? id)
         {
             var obj = _db.WarehouseProduct.Find(id);

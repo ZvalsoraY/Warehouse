@@ -2,13 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Warehouse.Data;
 using Warehouse.Models;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Warehouse.Models.ViewModels;
-using Warehouse.Controllers;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace Warehouse.Controllers
 {
@@ -48,7 +44,6 @@ namespace Warehouse.Controllers
             }
 
             List<WarehouseInformation> warehouses = _db.WarehouseInformation.ToList();
-            // устанавливаем начальный элемент, который позволит выбрать всех
             warehouses.Insert(0, new WarehouseInformation { Name = "Все", Id = 0 });
 
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
