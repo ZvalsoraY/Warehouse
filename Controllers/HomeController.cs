@@ -30,10 +30,14 @@ namespace Warehouse.Controllers
             List<WarehouseInformation> warehouses = _db.WarehouseInformation.ToList();
             warehouses.Insert(0, new WarehouseInformation { Name = "Все", Id = 0 });
 
+            List<Storekeeper> storekeepers = _db.Storekeeper.ToList();
+            storekeepers.Insert(0, new Storekeeper { Name = "Все", Id = 0 });
+
             WarehouseProductHomeVM plvm = new WarehouseProductHomeVM
             {
                 WarehouseProducts = warehouseProducts.ToList().DistinctBy(u => u.Product.ApplicationTypeId).Take(5),
-                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name")            
+                WarehouseInformationSelectList = new SelectList(warehouses, "Id", "Name"),
+                StorekeeperSelectList = new SelectList(storekeepers, "Id", "Name")
             };
             return View(plvm);
         }

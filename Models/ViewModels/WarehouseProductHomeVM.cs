@@ -9,6 +9,8 @@ namespace Warehouse.Models.ViewModels
         public SelectList ProductSelectList { get; set; }
         public SelectList WarehouseInformationSelectList { get; set; }
 
+        public SelectList StorekeeperSelectList { get; set; }
+
         public int NumbProdInWarehouse { get; set; }
     }
 }

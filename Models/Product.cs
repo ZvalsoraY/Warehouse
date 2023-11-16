@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Warehouse.Models
 {
+    /// <summary>
+    /// Класс Product,
+    /// хранит данные оп продукте, его описание, типе.
+    /// </summary>
     public class Product
     {
         [Key]
