@@ -4,6 +4,9 @@ using Warehouse.Models;
 
 namespace Warehouse.Controllers
 {
+    /// <summary>
+    /// Класс WarehouseInformationController отвечает за работу со складами
+    /// </summary>
     public class WarehouseInformationController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -12,6 +15,10 @@ namespace Warehouse.Controllers
         {
             _db = db;
         }
+        /// <summary>
+        /// Методо Index возвращает список складов.
+        /// </summary>
+        /// <returns>IEnumerable of WarehouseInformation</returns>
         public IActionResult Index()
         {
             IEnumerable<WarehouseInformation> objWarehouseInformationList = _db.WarehouseInformation;
@@ -25,6 +32,11 @@ namespace Warehouse.Controllers
         }
 
         // post - create
+        /// <summary>
+        /// Метод post - create создает склад.
+        /// </summary>
+        /// <param name="obj">Представление типа склад</param>
+        /// <returns>Представление типа склад</returns>
         [HttpPost]
         public IActionResult Create(WarehouseInformation obj)
         {
@@ -37,7 +49,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // get - edit
+        /// <summary>
+        /// Метод get - edit обновляет склад.
+        /// </summary>
+        /// <param name="id">Id склада</param>
+        /// <returns>Представление типа склад для проверки</returns>
         public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
@@ -53,7 +69,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // post - edit
+        /// <summary>
+        /// Метод post - edit обновляет склад.
+        /// </summary>
+        /// <param name="obj">Представление типа склад</param>
+        /// <returns>Представление типа склад</returns>
         [HttpPost]
         public IActionResult Edit(WarehouseInformation obj)
         {
@@ -66,7 +86,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // get - delete
+        /// <summary>
+        /// Метод get - delete удаляет склад.
+        /// </summary>
+        /// <param name="id">Id склада</param>
+        /// <returns>Представление типа склад</returns>
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -82,7 +106,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // post - delete
+        /// <summary>
+        /// Метод post - delete удаляет склад.
+        /// </summary>
+        /// <param name="id">Id склада</param>
+        /// <returns>Перенаправляет на страницу со всеми складами</returns>
         [HttpPost]
         public IActionResult DeletePost(int? id)
         {

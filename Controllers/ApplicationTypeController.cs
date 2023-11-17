@@ -4,6 +4,9 @@ using Warehouse.Models;
 
 namespace Warehouse.Controllers
 {
+    /// <summary>
+    /// Класс ApplicationTypeController отвечает за работу с типами продуктов
+    /// </summary>
     public class ApplicationTypeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -12,6 +15,11 @@ namespace Warehouse.Controllers
         {
             _db = db;
         }
+
+        /// <summary>
+        /// Методо Index возвращает список типов продукта.
+        /// </summary>
+        /// <returns>IEnumerable of ApplicationType</returns>
         public IActionResult Index()
         {
             IEnumerable<ApplicationType> objApplicationTypeList = _db.ApplicationType;
@@ -24,7 +32,11 @@ namespace Warehouse.Controllers
             return View();
         }
 
-        // post - create
+        /// <summary>
+        /// Метод post - create создает тип продукта.
+        /// </summary>
+        /// <param name="obj"> Представление типа продукта</param>
+        /// <returns> Представление типа продукта</returns>
         [HttpPost]
         public IActionResult Create(ApplicationType obj)
         {
@@ -38,7 +50,11 @@ namespace Warehouse.Controllers
             //return View();
         }
 
-        // get - edit
+        /// <summary>
+        /// Метод get - edit для обновления информации о типе продукта. 
+        /// </summary>
+        /// <param name="id">Id продукта</param>
+        /// <returns>Представление тип продукта</returns>
         public IActionResult Edit(int? id)
         {
             if (id == null || id == 0)
@@ -54,7 +70,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // post - edit
+        /// <summary>
+        /// Метод post - edit для обновления информации о типе продукта. 
+        /// </summary>
+        /// <param name="obj">Представление типа продукта</param>
+        /// <returns>Представление типа продукта</returns>
         [HttpPost]
         public IActionResult Edit(ApplicationType obj)
         {
@@ -67,7 +87,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // get - delete
+        /// <summary>
+        /// Метод get - delete для удаления типа продукта.
+        /// </summary>
+        /// <param name="id">Id продукта</param>
+        /// <returns>Представление типа продукта</returns>
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -83,7 +107,11 @@ namespace Warehouse.Controllers
             return View(obj);
         }
 
-        // post - delete
+        /// <summary>
+        /// Метод post - delete для удаления типа продукта. 
+        /// </summary>
+        /// <param name="id">Id продукта</param>
+        /// <returns>Перенаправляет на страницу со всеми тиами продукта</returns>
         [HttpPost]
         public IActionResult DeletePost(int? id)
         {

@@ -3,6 +3,10 @@ using System.ComponentModel;
 
 namespace Warehouse.Models
 {
+    /// <summary>
+    /// Класс ApplicationType
+    /// хранит информацию о типе товара
+    /// </summary>
     public class ApplicationType
     {
         [Key]

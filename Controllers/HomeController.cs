@@ -9,6 +9,9 @@ using Warehouse.Models.ViewModels;
 
 namespace Warehouse.Controllers
 {
+    /// <summary>
+    /// Главная страница, приветствующая пользователя.
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -18,6 +21,11 @@ namespace Warehouse.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Метод Index для отображения данных на странице
+        /// </summary>
+        /// <param name="warehouse">id склада, для которого выводятся данные</param>
+        /// <returns>WarehouseProductHomeVM данные для отображения на странице</returns>
         public IActionResult Index(int? warehouse)
         {
             IQueryable<WarehouseProduct> warehouseProducts = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product).Include(u => u.Product.ApplicationType).OrderBy(d => d.Product.ApplicationType.Id);
@@ -42,6 +50,12 @@ namespace Warehouse.Controllers
             return View(plvm);
         }
 
+        /// <summary>
+        /// Метод NumberItems для изменения количества товара на складе
+        /// </summary>
+        /// <param name="warehouseProductId"> ID пары товар-склад</param>
+        /// <param name="changeNumber">значение изменения количества</param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult NumberItems(int warehouseProductId, int changeNumber)
         {

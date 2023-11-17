@@ -2,6 +2,10 @@
 
 namespace Warehouse.Models
 {
+    /// <summary>
+    /// Класс Storekeeper,
+    /// хранит информацию о грузчике
+    /// </summary>
     public class Storekeeper
     {
         [Key]

@@ -3,6 +3,10 @@ using System.ComponentModel;
 
 namespace Warehouse.Models
 {
+    /// <summary>
+    /// Класс WarehouseInformation,
+    /// хранит информацию о складе
+    /// </summary>
     public class WarehouseInformation
     {
         [Key]

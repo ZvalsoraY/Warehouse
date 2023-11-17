@@ -7,6 +7,9 @@ using Warehouse.Models.ViewModels;
 
 namespace Warehouse.Controllers
 {
+    /// <summary>
+    /// Класс WarehouseProductController отвечает за работу с хранением продукта на складе.
+    /// </summary>
     public class WarehouseProductController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -16,11 +19,21 @@ namespace Warehouse.Controllers
             _db = db;
         }
 
+        /// <summary>
+        /// Методо Index возвращает список "продукт-склад".
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             IEnumerable<WarehouseProduct> objList = _db.WarehouseProduct.Include(u => u.WarehouseInformation).Include(u => u.Product);
             return View(objList);
-        }        
+        }
+
+        /// <summary>
+        /// Метод get - upsert для создания или обновления информации о "продукт-склад".
+        /// </summary>
+        /// <param name="id">Null для создания новой пары "продукт-склад", id для изменения текущей пары "продукт-склад"</param>
+        /// <returns>Вовзращает информацию о паре "продукт-склад" для проверки</returns>
         public IActionResult Upsert(int? id)
         {
 
@@ -55,7 +68,11 @@ namespace Warehouse.Controllers
             }
         }
 
-        // post - upsert
+        /// <summary>
+        /// Метод post - upsert для создания или обновления информации о "продукт-склад".
+        /// </summary>
+        /// <param name="warehouseProductVM">Передается заполненная форма из get - upsert</param>
+        /// <returns>Вовзращает информацию о паре "продукт-склад" для проверки</returns>
         [HttpPost]
         public IActionResult Upsert(WarehouseProductVM warehouseProductVM)
         {
@@ -90,7 +107,11 @@ namespace Warehouse.Controllers
         }
 
 
-        // get - delete
+        /// <summary>
+        /// Метод get - delete для удаления продукта.
+        /// </summary>
+        /// <param name="id">Id удаляемой пары "продукт-склад"</param>
+        /// <returns>Вовзращает информацию о паре "продукт-склад" для проверки</returns>
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -106,7 +127,11 @@ namespace Warehouse.Controllers
             return View(warehouseProduct);
         }
 
-        // post - delete
+        /// <summary>
+        /// Метод post - delete для удаления продукта.
+        /// </summary>
+        /// <param name="id">Id удаляемой пары "продукт-склад"</param>
+        /// <returns>Возвращает на страницу с таблицей "продукт-склад"</returns>
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
